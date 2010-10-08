@@ -1,0 +1,55 @@
+#!/bin/sh
+
+set -e
+test X$1 == X && echo 'Args plox' && exit 1 ||
+
+## Manual configuration
+
+VHOST_DIR=/var/vhosts
+VHOST_CONF=/etc/httpd/conf/extra/httpd-vhosts.conf
+
+## Automatic configuration
+
+HOST=$1.`hostname`
+# You say /təˈmeɪtoʊ/, I say /təˈmɑːtoʊ/
+APACHECTL=`which apache2ctl 2>/dev/null || which apachectl`
+
+##
+
+mkdir -p $VHOST_DIR/$1/logs
+git clone --reference /store/media/dxw/reference/wordpress git://github.com/dxw/wordpress.git $VHOST_DIR/$1/docs
+
+export GIT_WORK_TREE=$VHOST_DIR/$1/docs
+export GIT_DIR=$VHOST_DIR/$1/docs/.git
+
+git checkout `git tag | tail -n1`
+
+F=$VHOST_DIR/$1/docs/wp-config.php
+echo "<?php"                                          > $F
+echo "define('DB_NAME', '$1');"                      >> $F
+echo "define('DB_USER', 'root');"                    >> $F
+echo "define('DB_PASSWORD', '');"                    >> $F
+echo "define('DB_HOST', 'localhost');"               >> $F
+echo "define('DB_CHARSET', 'utf8');"                 >> $F
+echo "define('DB_COLLATE', '');"                     >> $F
+echo "define('WP_HOME', 'http://$HOST' );"           >> $F
+echo "define('WP_SITEURL', 'http://$HOST');"         >> $F
+echo "\$table_prefix  = 'wp_';"                      >> $F
+echo "define ('WPLANG', '');"                        >> $F
+echo "if ( !defined('ABSPATH') )"                    >> $F
+echo "  define('ABSPATH', dirname(__FILE__) . '/');" >> $F
+echo "require_once(ABSPATH . 'wp-settings.php');"    >> $F
+
+sudo ghost modify $HOST 127.0.0.1
+
+echo                                                      | sudo tee -a $VHOST_CONF
+echo "<VirtualHost *:80>"                                 | sudo tee -a $VHOST_CONF
+echo "  ServerAdmin webmaster@example.org"                | sudo tee -a $VHOST_CONF
+echo "  DocumentRoot '$VHOST_DIR/$1/docs'"                | sudo tee -a $VHOST_CONF
+echo "  ServerName $HOST"                                 | sudo tee -a $VHOST_CONF
+echo "  ErrorLog '$VHOST_DIR/$1/logs/error_log'"          | sudo tee -a $VHOST_CONF
+echo "  CustomLog '$VHOST_DIR/$1/logs/access_log' common" | sudo tee -a $VHOST_CONF
+echo "</VirtualHost>"                                     | sudo tee -a $VHOST_CONF
+
+sudo $APACHECTL configtest
+sudo $APACHECTL restart
