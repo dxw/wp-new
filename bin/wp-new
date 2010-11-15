@@ -7,6 +7,7 @@ test X$1 == X && echo 'Usage: wp-new SITE_NAME' && exit 1 ||
 
 VHOST_DIR=/var/vhosts
 VHOST_CONF=/etc/httpd/conf/extra/httpd-vhosts.conf
+GIT_REFERENCE='--reference /store/media/dxw/reference/wordpress'
 
 ## Automatic configuration
 
@@ -19,7 +20,7 @@ APACHECTL=`which apache2ctl 2>/dev/null || which apachectl`
 # Clone WordPress
 
 mkdir -p $VHOST_DIR/$1/logs
-git clone --reference /store/media/dxw/reference/wordpress git://github.com/dxw/wordpress.git $VHOST_DIR/$1/docs
+git clone $GIT_REFERENCE git://github.com/dxw/wordpress.git $VHOST_DIR/$1/docs
 
 export GIT_WORK_TREE=$VHOST_DIR/$1/docs
 export GIT_DIR=$VHOST_DIR/$1/docs/.git
@@ -58,7 +59,7 @@ echo "</VirtualHost>"                                     | sudo tee -a $VHOST_C
 
 # Create database
 
-echo "create database $1" | mysql
+echo "create database if not exists $1" | mysql
 
 # Restart
 
