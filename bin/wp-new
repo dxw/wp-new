@@ -1,7 +1,7 @@
 #!/bin/sh
 
 set -e
-test X$1 == X && echo 'Args plox' && exit 1 ||
+test X$1 == X && echo 'Usage: wp-new SITE_NAME' && exit 1 ||
 
 ## Manual configuration
 
@@ -15,6 +15,8 @@ HOST=$1.`hostname`
 APACHECTL=`which apache2ctl 2>/dev/null || which apachectl`
 
 ##
+
+# Clone WordPress
 
 mkdir -p $VHOST_DIR/$1/logs
 git clone --reference /store/media/dxw/reference/wordpress git://github.com/dxw/wordpress.git $VHOST_DIR/$1/docs
@@ -41,6 +43,8 @@ echo "if ( !defined('ABSPATH') )"                    >> $F
 echo "  define('ABSPATH', dirname(__FILE__) . '/');" >> $F
 echo "require_once(ABSPATH . 'wp-settings.php');"    >> $F
 
+# Add vhost
+
 sudo ghost modify $HOST 127.0.0.1
 
 echo                                                      | sudo tee -a $VHOST_CONF
@@ -51,6 +55,12 @@ echo "  ServerName $HOST"                                 | sudo tee -a $VHOST_C
 echo "  ErrorLog '$VHOST_DIR/$1/logs/error_log'"          | sudo tee -a $VHOST_CONF
 echo "  CustomLog '$VHOST_DIR/$1/logs/access_log' common" | sudo tee -a $VHOST_CONF
 echo "</VirtualHost>"                                     | sudo tee -a $VHOST_CONF
+
+# Create database
+
+echo "create database $1" | mysql
+
+# Restart
 
 sudo $APACHECTL configtest
 sudo $APACHECTL restart
