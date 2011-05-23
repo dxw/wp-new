@@ -30,6 +30,8 @@ git checkout `git tag | tail -n1`
 F=$VHOST_DIR/$1/docs/wp-config.php
 echo "<?php"                                          > $F
 echo "define('WP_DEBUG', true);"                     >> $F
+echo "define('SCRIPT_DEBUG', true);"                 >> $F
+echo "define('STYLE_DEBUG', true);"                  >> $F
 echo "define('DB_NAME', '$1');"                      >> $F
 echo "define('DB_USER', 'root');"                    >> $F
 echo "define('DB_PASSWORD', '');"                    >> $F
