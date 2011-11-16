@@ -54,7 +54,7 @@ echo "require_once(ABSPATH . 'wp-settings.php');"    >> $F
 
 # Add vhost
 
-sudo ghost modify $HOST 127.0.0.1
+echo $HOST ::1 | sudo tee -a /etc/hosts
 
 echo                                                      | sudo tee -a $VHOST_CONF
 echo "<VirtualHost *:80>"                                 | sudo tee -a $VHOST_CONF
