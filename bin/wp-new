@@ -56,10 +56,10 @@ echo 127.0.0.1 $HOST | sudo tee -a /etc/hosts
 
 echo "<VirtualHost *:80>"                                 | sudo tee    $VHOST_CONF
 echo "  ServerAdmin webmaster@example.org"                | sudo tee -a $VHOST_CONF
-echo "  DocumentRoot '$VHOST_DIR/$1/docs'"                | sudo tee -a $VHOST_CONF
+echo "  DocumentRoot $VHOST_DIR/$1/docs"                | sudo tee -a $VHOST_CONF
 echo "  ServerName $HOST"                                 | sudo tee -a $VHOST_CONF
-echo "  ErrorLog '$VHOST_DIR/$1/logs/error_log'"          | sudo tee -a $VHOST_CONF
-echo "  CustomLog '$VHOST_DIR/$1/logs/access_log' common" | sudo tee -a $VHOST_CONF
+echo "  ErrorLog $VHOST_DIR/$1/logs/error_log"          | sudo tee -a $VHOST_CONF
+echo "  CustomLog $VHOST_DIR/$1/logs/access_log common" | sudo tee -a $VHOST_CONF
 echo "</VirtualHost>"                                     | sudo tee -a $VHOST_CONF
 
 # Create database
