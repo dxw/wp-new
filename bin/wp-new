@@ -63,7 +63,7 @@ echo 127.0.0.1 $HOST | sudo tee -a /etc/hosts
 cat << EOF | sudo tee $VHOST_CONF
 server {
   listen   [::]:80;
-  server_name $1.ayumu;
+  server_name $HOST;
   root $VHOST_DIR/$1/docs;
 
   include common/wordpress.conf;
