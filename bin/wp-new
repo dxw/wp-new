@@ -31,7 +31,7 @@ cd $VHOST_DIR/$1 && git checkout `git tag | tail -n1` && cd -
 cat << EOF >> $VHOST_DIR/$1/wp-config.php
 <?php
 
-#function wp_check_password(){return true;}
+function wp_check_password(){return true;}
 
 #define('WP_DEBUG', true);
 #define('SCRIPT_DEBUG', true);
