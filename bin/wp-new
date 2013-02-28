@@ -20,16 +20,15 @@ NO_DASHES=`echo $1 | tr -- - _`
 
 # Clone WordPress
 
-mkdir -p $VHOST_DIR/$1/logs
+mkdir -p $VHOST_DIR
 git clone $GIT_REFERENCE git://github.com/dxw/wordpress.git $VHOST_DIR/$1/docs || true
 
-cd $VHOST_DIR/$1/docs && git checkout `git tag | tail -n1` && cd -
+cd $VHOST_DIR/$1 && git checkout `git tag | tail -n1` && cd -
 
 # Configure
 
-F=$VHOST_DIR/$1/docs/wp-config.php
 
-cat << EOF >> $F
+cat << EOF >> $VHOST_DIR/$1/wp-config.php
 <?php
 
 #function wp_check_password(){return true;}
@@ -66,7 +65,7 @@ cat << EOF | sudo tee $VHOST_CONF
 server {
   listen   [::]:80;
   server_name $HOST;
-  root $VHOST_DIR/$1/docs;
+  root $VHOST_DIR/$1;
 
   include common/wordpress.conf;
 }
