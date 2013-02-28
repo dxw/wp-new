@@ -14,6 +14,8 @@ GIT_REFERENCE='--reference /store/media/dxw/reference/wordpress'
 VHOST_CONF=$VHOST_CONF_DIR/$1
 HOST=$1.`hostname`
 
+NO_DASHES=`echo $1 | tr -- - _`
+
 ##
 
 # Clone WordPress
@@ -38,7 +40,7 @@ cat << EOF >> $F
 
 #define('WP_ALLOW_MULTISITE', true);
 
-define('DB_NAME', '$1');
+define('DB_NAME', '$NO_DASHES');
 define('DB_USER', 'root');
 define('DB_PASSWORD', '');
 define('DB_HOST', 'localhost');
@@ -72,7 +74,7 @@ EOF
 
 # Create database
 
-echo "create database if not exists $1" | mysql
+echo "create database if not exists $NO_DASHES" | mysql
 
 # Restart
 
