@@ -37,7 +37,7 @@ function wp_check_password(){return true;}
 #define('SCRIPT_DEBUG', true);
 #define('STYLE_DEBUG', true);
 
-#define('WP_ALLOW_MULTISITE', true);
+define('WP_ALLOW_MULTISITE', true);
 
 define('DB_NAME', '$NO_DASHES');
 define('DB_USER', 'root');
