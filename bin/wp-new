@@ -45,8 +45,8 @@ define('DB_PASSWORD', '');
 define('DB_HOST', 'localhost');
 define('DB_CHARSET', 'utf8');
 define('DB_COLLATE', '');
-define('WP_HOME', 'http://$HOST' );
-define('WP_SITEURL', 'http://$HOST');
+define('WP_HOME', 'https://$HOST' );
+define('WP_SITEURL', 'https://$HOST');
 \$table_prefix  = 'wp_';
 define ('WPLANG', '');
 if ( !defined('ABSPATH') )
