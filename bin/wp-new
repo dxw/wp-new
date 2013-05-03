@@ -33,9 +33,7 @@ cat << EOF >> $VHOST_DIR/$1/wp-config.php
 
 function wp_check_password(){return true;}
 
-#define('WP_DEBUG', true);
-#define('SCRIPT_DEBUG', true);
-#define('STYLE_DEBUG', true);
+define('WP_DEBUG', true);
 
 define('WP_ALLOW_MULTISITE', true);
 
