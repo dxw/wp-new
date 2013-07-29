@@ -9,8 +9,13 @@ test X$1 = X && echo 'Usage: wp-new SITE_NAME' && exit 1 ||
 
 # Set this to where your sites are
 VHOST_DIR=/var/vhosts
+
 # Set this to where your site configs are
 VHOST_CONF_DIR=/etc/nginx/sites-enabled
+
+# The location of the repo
+GIT_REPO='https://github.com/dxw/wordpress.git'
+
 # Set this to something like --reference /path/to/wordpress-repo
 GIT_REFERENCE=''
 
@@ -30,7 +35,7 @@ NO_DASHES=`echo $1 | tr -- - _`
 # Clone WordPress
 
 mkdir -p $VHOST_DIR
-git clone $GIT_REFERENCE git://github.com/dxw/wordpress.git $VHOST_DIR/$1/docs || true
+git clone $GIT_REFERENCE $GIT_REPO $VHOST_DIR/$1/docs || true
 
 cd $VHOST_DIR/$1 && git checkout `git tag | tail -n1` && cd -
 
