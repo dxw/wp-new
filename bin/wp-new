@@ -52,6 +52,7 @@ define('WP_DEBUG_DISPLAY', null);
 
 define('WP_ALLOW_MULTISITE', true);
 
+define('FS_METHOD', 'direct');
 define('DB_NAME', '$NO_DASHES');
 define('DB_USER', 'root');
 define('DB_PASSWORD', '');
