@@ -68,7 +68,10 @@ if ( !defined('ABSPATH') )
 require_once(ABSPATH . 'wp-settings.php');
 if (!empty(\$_SERVER['HTTP_X_FORWARDED_PROTO']) &&
   \$_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') \$_SERVER['HTTPS'] = '1';
-if (!empty(\$_SERVER['HTTP_X_FORWARDED_FOR'])) \$_SERVER['REMOTE_ADDR'] = trim(array_shift(explode(',', \$_SERVER['HTTP_X_FORWARDED_FOR'])));
+if (!empty(\$_SERVER['HTTP_X_FORWARDED_FOR'])) {
+  \$x = explode(',', \$_SERVER['HTTP_X_FORWARDED_FOR']);
+  \$_SERVER['REMOTE_ADDR'] = trim(array_shift(\$x));
+}
 EOF
 
 # Add vhost
