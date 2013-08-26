@@ -35,7 +35,7 @@ NO_DASHES=`echo $1 | tr -- - _`
 # Clone WordPress
 
 mkdir -p $VHOST_DIR
-git clone $GIT_REFERENCE $GIT_REPO $VHOST_DIR/$1/docs || true
+git clone $GIT_REFERENCE $GIT_REPO $VHOST_DIR/$1 || true
 
 cd $VHOST_DIR/$1 && git checkout `git tag | tail -n1` && cd -
 
