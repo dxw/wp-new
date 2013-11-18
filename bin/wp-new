@@ -80,7 +80,7 @@ echo 127.0.0.1 $HOST | sudo tee -a /etc/hosts
 
 cat << EOF | sudo tee $VHOST_CONF
 server {
-  listen   [::]:80;
+  listen   80;
   server_name $HOST *.$HOST;
   root $VHOST_DIR/$1;
 
